@@ -21,8 +21,7 @@ function App() {
     // the password we're generating
     let pass = "";
     // the set of char, optional: numbers & symbols we're using
-    let str = "";
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
     if(numberAllowed) str += "0123456789";
     if(charAllowed) str += "!@#$%^&*()_+";
@@ -49,7 +48,7 @@ function App() {
     // using this we can write the state password into the clipboard
     window.navigator.clipboard.writeText(password);
     passwordRef.current?.select(); // highlights (selects the password), the '?' is just in case there's no password
-    
+
   }
 
 
