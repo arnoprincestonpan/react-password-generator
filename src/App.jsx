@@ -2,12 +2,19 @@ import './App.css'
 import { useState, useCallback, useEffect, useRef } from 'react';
 
 function App() {
-  // length of password
+
+  // avoid magic numbers; use Object.freeze()
+  const PASSWORD_LIMITS = Object.freeze({
+    MIN: 6,
+    MAX: 64,
+  });
+
+  // length of password; default 12
   const [length, setLength] = useState(12);
 
   // Conditions (i.e. Number in password? Character in password?)
   const [numberAllowed, setNumberAllowed] = useState(true);
-  const [charAllowed, setCharAllowed] = useState(true);
+  const [symbolAllowed, setSymbolAllowed] = useState(true);
 
   // Actual Password
   const [password, setPassword] = useState('');
@@ -24,7 +31,7 @@ function App() {
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
     if(numberAllowed) str += "0123456789";
-    if(charAllowed) str += "!@#$%^&*()_+";
+    if(symbolAllowed) str += "!@#$%^&*()_+";
 
     // the loop generates a random char/number/symbol from str for (every character in string) the length of the password
     for(let i = 1; i < length; i++){
@@ -35,14 +42,14 @@ function App() {
     }
 
     setPassword(pass);
-  }, [length, numberAllowed, charAllowed]);
+  }, [length, numberAllowed, symbolAllowed]);
   // useCallback helps avoid unnecesary re-renders by ensuring that generatePassword keeps the same reference unless its dependencies change
 
   useEffect(() => {
     generatePassword();
     console.log(password);
-  }, [length, numberAllowed, charAllowed]);
- // useEffect needs to call the same generatePassword func, and useCallback ensure that useEffect doesn't get a new func on every render; unless length, numberAllowed or charAllowed is changed
+  }, [length, numberAllowed, symbolAllowed]);
+ // useEffect needs to call the same generatePassword func, and useCallback ensure that useEffect doesn't get a new func on every render; unless length, numberAllowed or symbolAllowed is changed
 
   const copyPasswordToClipboard = () => {
     // using this we can write the state password into the clipboard
@@ -79,8 +86,8 @@ function App() {
           <input
           className='cursor-pointer'
           type='range'
-          min={6}
-          max={100}
+          min={PASSWORD_LIMITS.MIN}
+          max={PASSWORD_LIMITS.MAX}
           value={length}
           onChange={(e) => setLength(e.target.valueAsNumber)}
           name=""
@@ -103,14 +110,14 @@ function App() {
         <div className='flex items-center gap-x-1'>
           <input
           type="checkbox"
-          defaultChecked={charAllowed}
+          defaultChecked={symbolAllowed}
           onChange={() => {
-            setCharAllowed((prev) => !prev) // take the previous number and flip it! toggle to the opposite Bool
+            setSymbolAllowed((prev) => !prev) // take the previous number and flip it! toggle to the opposite Bool
           }}
           name=""
           id=""
           />
-          <label htmlFor="charInput">Characters</label>
+          <label htmlFor="symbolInput">Symbols</label>
         </div>
       </div>
     </div>
