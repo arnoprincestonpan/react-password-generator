@@ -3,11 +3,11 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 
 function App() {
   // length of password
-  const [length, setLength] = useState(8);
+  const [length, setLength] = useState(12);
 
   // Conditions (i.e. Number in password? Character in password?)
-  const [numberAllowed, setNumberAllowed] = useState(false);
-  const [charAllowed, setCharAllowed] = useState(false);
+  const [numberAllowed, setNumberAllowed] = useState(true);
+  const [charAllowed, setCharAllowed] = useState(true);
 
   // Actual Password
   const [password, setPassword] = useState('');
