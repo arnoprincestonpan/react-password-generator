@@ -12,6 +12,10 @@ function App() {
   // Actual Password
   const [password, setPassword] = useState('');
 
+  const generatePassword = () => {
+    
+  }
+
   return (
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-500">
       <h1 className='text-white text-center my-3'>
@@ -43,6 +47,30 @@ function App() {
           id=""
           />
           <label htmlFor="length">Length: {length}</label>
+        </div>
+        <div className='flex items-center gap-x-1'>
+          <input
+          type="checkbox"
+          defaultChecked={numberAllowed}
+          onChange={() => {
+            setNumberAllowed((prev) => !prev) // take the previous number and flip it! toggle to the opposite Bool
+          }}
+          name=""
+          id=""
+          />
+          <label htmlFor="number">Numbers</label>
+        </div>
+        <div className='flex items-center gap-x-1'>
+          <input
+          type="checkbox"
+          defaultChecked={charAllowed}
+          onChange={() => {
+            setCharAllowed((prev) => !prev) // take the previous number and flip it! toggle to the opposite Bool
+          }}
+          name=""
+          id=""
+          />
+          <label htmlFor="charInput">Numbers</label>
         </div>
       </div>
     </div>
