@@ -1,5 +1,5 @@
 import './App.css'
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 function App() {
   // length of password
@@ -11,6 +11,10 @@ function App() {
 
   // Actual Password
   const [password, setPassword] = useState('');
+
+  // Password Reference (we want feedback when it is copied)
+  const passwordRef = useRef(null);
+
 
   // UseCallback to generate password right away
   const generatePassword = useCallback(() => {
@@ -32,7 +36,22 @@ function App() {
     }
 
     setPassword(pass);
-  });
+  }, [length, numberAllowed, charAllowed]);
+  // useCallback helps avoid unnecesary re-renders by ensuring that generatePassword keeps the same reference unless its dependencies change
+
+  useEffect(() => {
+    generatePassword();
+    console.log(password);
+  }, [length, numberAllowed, charAllowed]);
+ // useEffect needs to call the same generatePassword func, and useCallback ensure that useEffect doesn't get a new func on every render; unless length, numberAllowed or charAllowed is changed
+
+  const copyPasswordToClipboard = () => {
+    // using this we can write the state password into the clipboard
+    window.navigator.clipboard.writeText(password);
+    passwordRef.current?.select(); // highlights (selects the password), the '?' is just in case there's no password
+    
+  }
+
 
   return (
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-500">
@@ -46,8 +65,12 @@ function App() {
         className='outline-none w-full py-1 px-3'
         placeholder='Password'
         readOnly // no one can change the generated pasword directly
+        ref={passwordRef}
         />
-        <button className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'>
+        <button 
+        className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'
+        onClick={() => copyPasswordToClipboard()}
+        >
           Copy
         </button>
       </div>
@@ -60,7 +83,7 @@ function App() {
           min={6}
           max={100}
           value={length}
-          onChange={(e) => setLength(e.target.value)}
+          onChange={(e) => setLength(e.target.valueAsNumber)}
           name=""
           id=""
           />
@@ -88,7 +111,7 @@ function App() {
           name=""
           id=""
           />
-          <label htmlFor="charInput">Numbers</label>
+          <label htmlFor="charInput">Characters</label>
         </div>
       </div>
     </div>
