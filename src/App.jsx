@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useCallback, useEffect, useRef } from "react";
-import PasswordDisplay from "./PasswordDisplay";
-import Options from "./Options";
+import PasswordDisplay from "./components/PasswordDisplay";
+import Options from "./components/Options";
 
 function App() {
   // avoid magic numbers; use Object.freeze()
