@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 function App() {
   // length of password
@@ -12,9 +12,27 @@ function App() {
   // Actual Password
   const [password, setPassword] = useState('');
 
-  const generatePassword = () => {
+  // UseCallback to generate password right away
+  const generatePassword = useCallback(() => {
+    // the password we're generating
+    let pass = "";
+    // the set of char, optional: numbers & symbols we're using
+    let str = "";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
-  }
+    if(numberAllowed) str += "0123456789";
+    if(charAllowed) str += "!@#$%^&*()_+";
+
+    // the loop generates a random char/number/symbol from str for (every character in string) the length of the password
+    for(let i = 1; i < length; i++){
+      // the index of the character that we will be adding to the password
+      const char = Math.floor(Math.random() * str.length + 1);
+      // the char at set index will be added to the password
+      pass += str.charAt(char);
+    }
+
+    setPassword(pass);
+  });
 
   return (
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-500">
