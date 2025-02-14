@@ -1,5 +1,6 @@
 import './App.css'
 import { useState, useCallback, useEffect, useRef } from 'react';
+import PasswordDisplay from './PasswordDisplay';
 
 function App() {
 
@@ -62,28 +63,8 @@ function App() {
       <h1 className='text-white text-center my-3'>
         Password Generator
       </h1>
-      <div className="flex shadow rounded-lg overflow-hidden mb-4">
-        <input 
-        type="text"
-        value={password}
-        className='outline-none w-full py-1 px-3'
-        placeholder='Password'
-        readOnly // no one can change the generated pasword directly
-        ref={passwordRef}
-        />
-        <button 
-        className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'
-        onClick={() => copyPasswordToClipboard()}
-        >
-          Copy
-        </button>
-        <button className='outline-none bg-red-700 text-white px-3 py-0.5 shrink-0'
-        onClick={() => generatePassword()}
-        >
-          {/* The magic here is that generatePassword() is remembered by useCallback() so it can be referenced and doesn't have to be recreated */}
-          Regenerate
-        </button>
-      </div>
+
+      <PasswordDisplay password={password} copyPassword={copyPasswordToClipboard} regeneratePassword={generatePassword}/>
 
       <div className="flex text-sm gap-x-2">
         <div className='flex items-center gap-x-1'>
