@@ -22,7 +22,6 @@ function App() {
   // Password Reference (we want feedback when it is copied)
   const passwordRef = useRef(null);
 
-
   // UseCallback to generate password right away
   const generatePassword = useCallback(() => {
     // the password we're generating
@@ -58,7 +57,6 @@ function App() {
 
   }
 
-
   return (
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-500">
       <h1 className='text-white text-center my-3'>
@@ -78,6 +76,12 @@ function App() {
         onClick={() => copyPasswordToClipboard()}
         >
           Copy
+        </button>
+        <button className='outline-none bg-red-700 text-white px-3 py-0.5 shrink-0'
+        onClick={() => generatePassword()}
+        >
+          {/* The magic here is that generatePassword() is remembered by useCallback() so it can be referenced and doesn't have to be recreated */}
+          Regenerate
         </button>
       </div>
 
